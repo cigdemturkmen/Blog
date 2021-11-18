@@ -1,4 +1,6 @@
 using Blog.Data;
+using Blog.Services.Concrete;
+using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +25,8 @@ namespace BlogAdmin
                 option.UseSqlServer("Server=.;Database=BlogDev;User Id=sa;Password=123;");
                 //baþka projeler dataya baðlý ama data onlara baðlý deðil
             });
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>(); //instance alýnca ne vereceðini söyleyen yer.
 
             services.AddControllersWithViews(); // MVC
         }
