@@ -28,7 +28,7 @@ namespace BlogAdmin
 
             services.AddScoped<ICategoryRepository, CategoryRepository>(); //instance alýnca ne vereceðini söyleyen yer.
 
-            services.AddControllersWithViews(); // MVC
+            services.AddControllersWithViews(); // MVC yapýsýný oluþturmak için.
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
