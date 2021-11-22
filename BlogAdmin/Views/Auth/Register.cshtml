@@ -1,0 +1,42 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<h1>Register</h1>
+
+<form asp-controller="auth" asp-action="register" method="post" asp-antiforgery="true" class="user">
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label">First Name</label>
+        <input asp-for="FirstName" type="text" class="form-control form-control-user">
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label">Last Name</label>
+        <input asp-for="LastName" type="text" class="form-control form-control-user">
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Last Name</label>
+        <input asp-for="Email" type="email" class="form-control form-control-user">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input asp-for="Password" type="password" class="form-control form-control-user">
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PasswordConfirm" class="form-label">Password Confirm</label>
+        <input asp-for="PasswordConfirm" type="password" class="form-control form-control-user">
+        <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button> <hr />
+    <div class="text-center"><a href="/auth/login" class="small">Zaten hesabınız var mı? Buradan giriş yapın!</a></div>
+
+</form>

@@ -22,5 +22,7 @@ namespace BlogAdmin.Models
         [Required(ErrorMessage = "required!")]
         public IFormFile Picture { get; set; }  //kullanıcıdan resim alacaksan.. IFormFile türünden. input type =file UI tarafında. 
 
+        public string PictureStr { get; set; }
+
     }
 }

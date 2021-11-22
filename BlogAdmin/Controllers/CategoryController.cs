@@ -20,7 +20,14 @@ namespace BlogAdmin.Controllers
         }
         public IActionResult List()
         {
-            return View();
+            var categories = _categoryRepository.GetCategories().Select(x => new CategoryViewModel()
+            {
+                Id = x.Id,
+                CategoryName = x.CategoryName,
+                Description = x.Description,
+                PictureStr = Convert.ToBase64String(x.Picture)
+            }).ToList();
+            return View(categories);
         }
 
         public IActionResult Add()
@@ -29,14 +36,23 @@ namespace BlogAdmin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(CategoryViewModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult AddOrEdit(CategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                if (model.Id == 0)
+                {
+                    return View("Add", model);
+                }
+                else
+                {
+                    return View("Edit", model);
+                }
+                //return View(model);
             }
 
-            Category category = new Category()
+            Category entity = new Category()
             {
                 CategoryName = model.CategoryName,
                 Description = model.Description,
@@ -53,7 +69,7 @@ namespace BlogAdmin.Controllers
                     model.Picture.CopyTo(ms);
                     var fileByteArray = ms.ToArray();
 
-                    category.Picture = fileByteArray;
+                    entity.Picture = fileByteArray;
                 }
             }
             else
@@ -61,29 +77,59 @@ namespace BlogAdmin.Controllers
                 ViewBag.Message = "boş dosya yükleyemezsiniz";
             }
             #endregion
-           var sonuc = _categoryRepository.Add(category);
-            if (sonuc)
+
+            bool result;
+
+            if (model.Id == 0)
+            {
+                // new
+                result = _categoryRepository.Add(entity);
+            }
+            else
+            {
+                // edit
+                entity.Id = model.Id;
+                result = _categoryRepository.Edit(entity);
+            }
+            
+            if (result)
             {
                 return RedirectToAction("List");
             }
 
-            return View();
+            return View(model);
         }
 
         public IActionResult Edit(int id)
         {
-            return View();
+            var category = _categoryRepository.GetCategory(id);
+            if (category != null)
+            {
+                var viewModel = new CategoryViewModel()
+                {
+                    Id = category.Id,
+                    CategoryName = category.CategoryName,
+                    Description = category.Description,
+
+                };
+                return View(viewModel);
+            }
+            // mesaj
+            return RedirectToAction("List");
         }
 
-        [HttpPost]
-        public IActionResult Edit(CategoryViewModel model)
-        {
-            return View();
-        }
+        //[HttpPost]
+        //public IActionResult Edit(CategoryViewModel model)
+        //{
+        //    return View();
+        //}
 
         public IActionResult Delete(int id)
         {
-            return View();
+            var result = _categoryRepository.Delete(id);
+
+            TempData["Message"] = result ? "İşlem başarılı" : "Silme işlemi yapılmadı";
+            return RedirectToAction("List");
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Blog.Data
             modelBuilder.Entity<Post>().Property(x => x.IsActive).HasDefaultValue(true);
             modelBuilder.Entity<Tag>().Property(x => x.IsActive).HasDefaultValue(true);
             modelBuilder.Entity<Comment>().Property(x => x.IsActive).HasDefaultValue(true);
+            modelBuilder.Entity<User>().Property(x => x.IsActive).HasDefaultValue(true);
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -28,6 +29,7 @@ namespace Blog.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
 

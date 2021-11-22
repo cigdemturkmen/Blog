@@ -7,7 +7,7 @@
 
 <h1>Category Add</h1>
 
-<form asp-controller="category" asp-action="add" method="post" asp-antiforgery="true" enctype="multipart/form-data"> @*// file'ların eklenebilmesi için enctyype eklendi'yazmazsan pic içi null gelir*@
+<form asp-controller="category" asp-action="AddOrEdit" method="post" asp-antiforgery="true" enctype="multipart/form-data"> @*// file'ların eklenebilmesi için enctyype eklendi'yazmazsan pic içi null gelir*@
     <div class="mb-3">
         <label @*for="exampleInputEmail1"*@ asp-for="CategoryName" class="form-label">Email address</label>
         <input asp-for="CategoryName" type="text" class="form-control">
