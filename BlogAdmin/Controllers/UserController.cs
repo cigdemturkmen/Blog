@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Blog.Services.Interfaces;
+using BlogAdmin.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,12 +9,30 @@ using System.Threading.Tasks;
 
 namespace BlogAdmin.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles = "admin")]
     public class UserController : Controller
     {
-        public IActionResult Index()
+        private readonly IUserRepository _userRepository;
+
+        public UserController(IUserRepository userRepository)
         {
-            return View();
+            _userRepository = userRepository;
+        }
+
+        public IActionResult List()
+        {
+            var users = _userRepository.GetUsers().Select(x => new UserViewModel()
+            {
+                Name = x.Name,
+                Surname = x.Surname,
+                Email = x.Email,
+                Password = x.Password,
+                Role = x.Role,
+            }
+            );
+
+            //var users = _userRepository.GetUsers(); olmadı :P çünkü cshtml sayfası viewmodeli base alarak oluşturulduğu için.
+            return View(users);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace BlogAdmin
         {
             services.AddDbContext<BlogDbContext>(option =>
             {
-                option.UseSqlServer("Server=.;Database=BlogDev;User Id=sa;Password=123;");
+                option.UseSqlServer("Server=.;Database=BlogDev;User Id=sa;Password=Password1;");
                 //baþka projeler dataya baðlý ama data onlara baðlý deðil
             });
 
@@ -50,7 +50,7 @@ namespace BlogAdmin
             app.UseRouting();
 
             app.UseAuthentication(); // bu iki satýr routing'le useEdpoints'in arasýnda olmalý. yoksa hata verir.
-            app.UseAuthorization();
+            app.UseAuthorization(); // ve bu satýr.
 
             app.UseEndpoints(endpoints =>
             {

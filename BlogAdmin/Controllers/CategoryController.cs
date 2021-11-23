@@ -41,6 +41,24 @@ namespace BlogAdmin.Controllers
             return View();
         }
 
+        public IActionResult Edit(int id)
+        {
+            var category = _categoryRepository.GetCategory(id);
+            if (category != null)
+            {
+                var viewModel = new CategoryViewModel()
+                {
+                    Id = category.Id,
+                    CategoryName = category.CategoryName,
+                    Description = category.Description,
+
+                };
+                return View(viewModel);
+            }
+            // mesaj
+            return RedirectToAction("List");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddOrEdit(CategoryViewModel model)
@@ -65,7 +83,7 @@ namespace BlogAdmin.Controllers
             {
                 CategoryName = model.CategoryName,
                 Description = model.Description,
-                
+
             };
 
             #region Picture için düzenleme.
@@ -102,31 +120,13 @@ namespace BlogAdmin.Controllers
                 entity.UpdatedById = currentuserId;
                 result = _categoryRepository.Edit(entity);
             }
-            
+
             if (result)
             {
                 return RedirectToAction("List");
             }
 
             return View(model);
-        }
-
-        public IActionResult Edit(int id)
-        {
-            var category = _categoryRepository.GetCategory(id);
-            if (category != null)
-            {
-                var viewModel = new CategoryViewModel()
-                {
-                    Id = category.Id,
-                    CategoryName = category.CategoryName,
-                    Description = category.Description,
-
-                };
-                return View(viewModel);
-            }
-            // mesaj
-            return RedirectToAction("List");
         }
 
         //[HttpPost]
