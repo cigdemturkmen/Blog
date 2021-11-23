@@ -1,6 +1,15 @@
-﻿
+﻿@using System.Security.Claims; 
 @{
     Layout = null;
+
+    var firstName = "";
+    var lastName = "";
+
+    if (Context.User.Identity.IsAuthenticated)
+    {
+        firstName = Context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+        lastName = Context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname).Value;
+    }
 }
 
 <!DOCTYPE html>
@@ -336,7 +345,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@firstName @lastName</span>
                                 <img class="img-profile rounded-circle"
                                      src="img/undraw_profile.svg">
                             </a>
@@ -411,7 +420,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="/auth/logout">Logout</a>
                 </div>
             </div>
         </div>

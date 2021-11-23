@@ -12,5 +12,6 @@ namespace Blog.Services.Interfaces
         bool Add(User entity);
         bool Edit(User entity);
         bool Delete(int id);
+        User Login(string email, string password);
     }
 }

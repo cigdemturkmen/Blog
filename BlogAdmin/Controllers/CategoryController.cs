@@ -1,15 +1,18 @@
 ﻿using Blog.Data.Entities;
 using Blog.Services.Interfaces;
 using BlogAdmin.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BlogAdmin.Controllers
 {
+    [Authorize] // auth
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -18,6 +21,8 @@ namespace BlogAdmin.Controllers
         {
             _categoryRepository = categoryRepository;
         }
+
+        [Authorize(Roles = "admin")]
         public IActionResult List()
         {
             var categories = _categoryRepository.GetCategories().Select(x => new CategoryViewModel()
@@ -30,6 +35,7 @@ namespace BlogAdmin.Controllers
             return View(categories);
         }
 
+        [Authorize(Roles = "editor")]
         public IActionResult Add()
         {
             return View();
@@ -52,11 +58,14 @@ namespace BlogAdmin.Controllers
                 //return View(model);
             }
 
+            var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var currentuserId = Convert.ToInt32(currentUserIdStr);
+
             Category entity = new Category()
             {
                 CategoryName = model.CategoryName,
                 Description = model.Description,
-                CreatedById = -1,
+                
             };
 
             #region Picture için düzenleme.
@@ -83,12 +92,14 @@ namespace BlogAdmin.Controllers
             if (model.Id == 0)
             {
                 // new
+                entity.CreatedById = currentuserId;
                 result = _categoryRepository.Add(entity);
             }
             else
             {
                 // edit
                 entity.Id = model.Id;
+                entity.UpdatedById = currentuserId;
                 result = _categoryRepository.Edit(entity);
             }
             

@@ -25,6 +25,7 @@ namespace Blog.Services.Concrete
             }
 
             entity.CreatedDate = DateTime.Now;
+            entity.Role = "editör";
 
             _context.Users.Add(entity);
 
@@ -33,22 +34,51 @@ namespace Blog.Services.Concrete
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = GetUser(id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            entity.IsActive = false;
+            entity.UpdatedDate = DateTime.Now;
+
+            return _context.SaveChanges() > 0;
         }
 
         public bool Edit(User entity)
         {
-            throw new NotImplementedException();
+            var updatedEntity = GetUser(entity.Id);
+
+            if (updatedEntity == null)
+            {
+                return false;
+            }
+
+            updatedEntity.Name = entity.Name;
+            updatedEntity.Surname = entity.Surname;
+            updatedEntity.Email = entity.Email; //değiştirmesini istemiyosan bunu ekleme
+            updatedEntity.Password = entity.Password;
+            updatedEntity.UpdatedDate = DateTime.Now;
+
+            return _context.SaveChanges() > 0;
         }
 
         public User GetUser(int id)
         {
-            throw new NotImplementedException();
+           return _context.Users.FirstOrDefault(x => x.Id == id && x.IsActive);
+
         }
 
         public List<User> GetUsers()
         {
-            throw new NotImplementedException();
+            return _context.Users.Where(x => x.IsActive).ToList();
+        }
+
+        public User Login(string email, string password)
+        {
+          return _context.Users.FirstOrDefault(x => x.Email == email && x.Password == password && x.IsActive);
         }
     }
 }

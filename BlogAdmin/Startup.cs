@@ -1,6 +1,7 @@
 using Blog.Data;
 using Blog.Services.Concrete;
 using Blog.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,14 @@ namespace BlogAdmin
                 //baþka projeler dataya baðlý ama data onlara baðlý deðil
             });
 
-            services.AddScoped<ICategoryRepository, CategoryRepository>(); //instance alýnca ne vereceðini söyleyen yer.
+            services.AddScoped<ICategoryRepository, CategoryRepository>(); //instance alýnca ne vereceðini söyleyen yer. DI - dependency injection
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+            {
+                option.LoginPath = "/auth/login";
+                option.ExpireTimeSpan = TimeSpan.FromHours(1); // 1 saat aktif olsun
+            }); // auth için burasý eklendi
 
             services.AddControllersWithViews(); // MVC yapýsýný oluþturmak için.
         }
@@ -40,6 +48,9 @@ namespace BlogAdmin
             }
 
             app.UseRouting();
+
+            app.UseAuthentication(); // bu iki satýr routing'le useEdpoints'in arasýnda olmalý. yoksa hata verir.
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

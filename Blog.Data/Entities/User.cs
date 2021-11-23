@@ -21,5 +21,8 @@ namespace Blog.Data.Entities
         [Required]
         [StringLength(12)]
         public string Password { get; set; }
+
+        [StringLength(10)]
+        public string Role { get; set; }
     }
 }
