@@ -13,6 +13,7 @@ namespace Blog.Data.Entities
         [StringLength(500)]
         public string Content { get; set; } //ataklar dinamik sayfalara yapılır. kullanıcıya input açtığınız anda açık vermiş olursunuz.
 
+        public bool IsPublished { get; set; }
         #region Relations
         public int PostId { get; set; }
         public Post Post { get; set; } 

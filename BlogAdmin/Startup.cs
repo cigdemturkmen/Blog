@@ -23,12 +23,14 @@ namespace BlogAdmin
         {
             services.AddDbContext<BlogDbContext>(option =>
             {
-                option.UseSqlServer("Server=.;Database=BlogDev;User Id=sa;Password=Password1;");
+                option.UseSqlServer("Server=.;Database=BlogDev;User Id=sa;Password=123;");
                 //baþka projeler dataya baðlý ama data onlara baðlý deðil
             });
 
             services.AddScoped<ICategoryRepository, CategoryRepository>(); //instance alýnca ne vereceðini söyleyen yer. DI - dependency injection
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
             {

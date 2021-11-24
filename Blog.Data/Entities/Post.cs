@@ -16,6 +16,8 @@ namespace Blog.Data.Entities
         public string Content { get; set; }
         public byte[] Picture { get; set; }
 
+        public bool IsPublished { get; set; }
+
         #region Relations
         public int CategoryId { get; set; }
         public Category Category { get; set; }
