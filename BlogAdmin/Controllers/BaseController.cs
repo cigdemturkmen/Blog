@@ -14,6 +14,9 @@ namespace BlogAdmin.Controllers
         public int GetCurrentUserId()
         {
             var id = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+
+            //var id = Convert.ToInt32(HttpContext.User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value); made nullable
+
             return id;
         }
     }

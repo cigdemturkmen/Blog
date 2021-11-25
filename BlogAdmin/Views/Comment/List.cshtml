@@ -1,11 +1,11 @@
-﻿@model IEnumerable<BlogAdmin.Models.TagViewModel>
+﻿@model IEnumerable<BlogAdmin.Models.CommentViewModel>
 
 @{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Tag List</h1>
+<h1>Comment List</h1>
 
 @if (TempData["Message"] != null)
 {
@@ -14,14 +14,14 @@
     </div>
 }
 
-<p>
-    <a asp-action="Add">Add Tag</a>
-</p>
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Nickname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
             </th>
             <th></th>
         </tr>
@@ -31,10 +31,14 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>

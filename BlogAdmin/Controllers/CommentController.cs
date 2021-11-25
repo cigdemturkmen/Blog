@@ -28,6 +28,7 @@ namespace BlogAdmin.Controllers
                 Content = x.Content,
 
             }).ToList();
+
             return View(comments);
         }
 
@@ -50,6 +51,7 @@ namespace BlogAdmin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(CommentViewModel model)
         {
             if (!ModelState.IsValid)
@@ -57,42 +59,36 @@ namespace BlogAdmin.Controllers
                 return View("Edit", model);
             }
 
-            var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var currentuserId = Convert.ToInt32(currentUserIdStr);
+            //var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            //var currentuserId = Convert.ToInt32(currentUserIdStr);
+
+            var currentUserId = GetCurrentUserId();
 
             Comment entity = new Comment()
             {
-                
-
+                Id = model.Id,
+                Nickname = model.Nickname,
+                Content = model.Content,
+                UpdatedById = currentUserId
             };
 
-            bool result;
-
-            if (model.Id == 0)
-            {
-                // new
-                entity.CreatedById = currentuserId;
-                result = _commentRepository.Add(entity);
-            }
-            else
-            {
-                // edit
-                entity.Id = model.Id;
-                entity.UpdatedById = currentuserId;
-                result = _commentRepository.Edit(entity);
-            }
+            var result = _commentRepository.Edit(entity);
 
             if (result)
             {
                 return RedirectToAction("List");
             }
 
-            return View(model);
+            return View("Edit", model);
         }
 
         public IActionResult Delete(int id)
         {
-            return View();
+            var result = _commentRepository.Delete(id);
+
+            TempData["Message"] = result ? "Silindi" : "İşlem başarısız oldu";
+
+            return RedirectToAction("List");
         }
     }
 }

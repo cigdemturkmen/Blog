@@ -19,15 +19,13 @@ namespace BlogAdmin.Controllers
             _tagRepository = tagRepository;
         }
 
-       
         public IActionResult List()
         {
-            var tags = _tagRepository.GetTags().Select(x => new TagViewModel
+            var tags = _tagRepository.GetTags().Select(x => new TagViewModel()
             {
                 Name = x.Name,
                 Id = x.Id,
-            }
-            );
+            }).ToList(); //List actionında model Ienumerable ise burada ToList() yapmana gerek yok. ;)
 
             return View(tags);
         }
@@ -52,7 +50,7 @@ namespace BlogAdmin.Controllers
 
                 return View(viewModel);
             }
-
+            // Mesaj
             return RedirectToAction("List");
         }
 
@@ -63,13 +61,9 @@ namespace BlogAdmin.Controllers
             if (!ModelState.IsValid)
             {
                 if (model.Id == 0)
-                {
                     return View("Add", model);
-                }
                 else
-                {
                     return View("Edit", model);
-                }
             }
 
             //var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
@@ -81,7 +75,7 @@ namespace BlogAdmin.Controllers
             {
                 Id = model.Id, // bunu yazmasan da olur
                 Name = model.Name,
-                
+
             };
 
             bool result;
@@ -95,7 +89,7 @@ namespace BlogAdmin.Controllers
             else
             {
                 // edit
-                entity.Id = model.Id;
+                entity.Id = model.Id; // ?
                 entity.UpdatedById = currentUserId;
                 result = _tagRepository.Edit(entity);
             }
@@ -105,8 +99,10 @@ namespace BlogAdmin.Controllers
                 return RedirectToAction("List");
             }
 
-            return View(model);
-           
+            if (model.Id == 0)
+                return View("Add", model);
+            else
+                return View("Edit", model);
         }
 
 
@@ -114,7 +110,8 @@ namespace BlogAdmin.Controllers
         {
             var result = _tagRepository.Delete(id);
 
-            TempData["Message"] = result ? "İşlem başarılı" : "Silme işlemi yapılmadı";
+            TempData["Message"] = result ? "Silindi" : "Silme işlemi yapılmadı";
+
             return RedirectToAction("List");
         }
     }

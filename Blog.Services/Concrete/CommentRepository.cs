@@ -51,9 +51,9 @@ namespace Blog.Services.Concrete
             uptentity.Nickname = entity.Nickname;
             uptentity.PostId = entity.PostId;
             uptentity.Content = entity.Content;
+            uptentity.UpdatedDate = DateTime.Now;
 
             return _context.SaveChanges() > 0;
-
         }
 
         public Comment GetComment(int id)

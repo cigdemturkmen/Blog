@@ -7,12 +7,12 @@
 
 
 
-<h4>Add Tag</h4>
+<h1>Add Tag</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddOrEdit" asp-controller="">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div> @*Burayı silebilirsin*@
+        <form asp-action="AddOrEdit" asp-controller="Tag" method="post" asp-antiforgery="true">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*Burayı silebilirsin*@
            
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
