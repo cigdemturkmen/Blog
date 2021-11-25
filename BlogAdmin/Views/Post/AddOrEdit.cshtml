@@ -1,0 +1,64 @@
+﻿@model PostViewModel
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AddOrEdit</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" asp-controller="Post" method="post" asp-antiforgery="true" enctype="multipart/form-data">
+            <input asp-for="Id" type="hidden" />
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*Burayı silebilirsin*@
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                @*<input asp-for="CategoryId" class="form-control" />*@
+            <select asp-for="CategoryId" class="form-control">
+                @foreach (var item in (List<SelectListItem>)ViewBag.Categories)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
+
+@section scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script> @*//bu scripti sadece bu sayfada kullanacağım. content editör.*@
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#Content'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+}
+

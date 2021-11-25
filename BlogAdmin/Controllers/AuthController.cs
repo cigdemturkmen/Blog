@@ -2,6 +2,7 @@
 using Blog.Services.Interfaces;
 using BlogAdmin.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace BlogAdmin.Controllers
 {
-    public class AuthController : Controller
+    [AllowAnonymous]
+    public class AuthController : BaseController
     {
         private readonly IUserRepository _userRepository;
 
@@ -38,7 +40,8 @@ namespace BlogAdmin.Controllers
                 Surname = model.LastName,
                 Email = model.Email,
                 Password = model.Password,
-                CreatedById = -1
+                CreatedById = -1,
+                Role = "editor",
             };
 
             var result = _userRepository.Add(user);

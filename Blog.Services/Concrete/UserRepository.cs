@@ -25,7 +25,7 @@ namespace Blog.Services.Concrete
             }
 
             entity.CreatedDate = DateTime.Now;
-            entity.Role = "editör";
+            //entity.Role = "editör";
 
             _context.Users.Add(entity);
 
@@ -61,6 +61,7 @@ namespace Blog.Services.Concrete
             updatedEntity.Email = entity.Email; //değiştirmesini istemiyosan bunu ekleme
             updatedEntity.Password = entity.Password;
             updatedEntity.UpdatedDate = DateTime.Now;
+            updatedEntity.Role = entity.Role;
 
             return _context.SaveChanges() > 0;
         }
