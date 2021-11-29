@@ -13,6 +13,8 @@ namespace Blog.Services.Interfaces
         bool Edit(Post entity);
         bool Delete(int id);
 
+        List<Post> GetLatest5Posts();
+
 
     }
 }

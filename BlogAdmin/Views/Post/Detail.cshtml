@@ -1,0 +1,31 @@
+﻿@model PostViewModel
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Post Detail</h1>
+
+<div class="row">
+    <div class="col-12">
+        <div>
+           Kategori Adı: @Model.CategoryName
+        </div>
+        <div>
+           Title:  @Model.Title
+        </div>
+        <div>
+            İçerik: @Html.Raw(Model.Content) 
+        </div>
+        <div>
+            @(Model.IsPublished? "Evet" : "Hayır")
+        </div>
+        <div>
+            <img src="data:image;base64, @Model.PictureStr" alt="Alternate Text" />
+        </div>
+        <div>
+           Etiketler: @Model.Tags
+        </div>
+    </div>
+</div>
+

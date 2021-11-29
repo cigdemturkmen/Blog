@@ -26,16 +26,15 @@
         {
             <tr>
                 <td>@item.CategoryName</td>
-                <td>item.Description</td>
-                <td> <img style="width:10%" src="data:image;base64, @item.PictureStr" /></td>  @*<td>@item.Picture</td> html img tag with base64 google*@
-            <td>
-                <a href="/category/edit/@item.Id">Düzenle</a>|  @*buradaki edit ve delete onların get metodu.*@
-                <a href="/category/delete/@item.Id">Sil</a>
-            </td>
-
+                <td>@item.Description</td>
+                <td>
+                    <img style="width:10%" src="data:image;base64, @item.PictureStr" />
+                </td>  @*<td>@item.Picture</td> html img tag with base64 google*@
+                <td>
+                    <a href="/category/edit/@item.Id">Düzenle</a>|  @*buradaki edit ve delete onların get metodu.*@
+                    <a href="/category/delete/@item.Id">Sil</a>
+                </td>
             </tr>
         }
-
     </tbody>
-
 </table>

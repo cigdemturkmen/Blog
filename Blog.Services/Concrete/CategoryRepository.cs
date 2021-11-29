@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Services.Concrete
 {
@@ -60,7 +61,7 @@ namespace Blog.Services.Concrete
 
         public List<Category> GetCategories()
         {
-            var categories = _context.Categories.Where(x => x.IsActive).ToList();
+            var categories = _context.Categories.Include(x => x.Posts).Where(x => x.IsActive).ToList();
             return categories;
         }
 

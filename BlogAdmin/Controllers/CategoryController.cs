@@ -35,7 +35,7 @@ namespace BlogAdmin.Controllers
             return View(categories);
         }
 
-        [Authorize(Roles = "editor")]
+        [Authorize(Roles = "admin")]
         public IActionResult Add()
         {
             return View();
@@ -44,6 +44,7 @@ namespace BlogAdmin.Controllers
         public IActionResult Edit(int id)
         {
             var category = _categoryRepository.GetCategory(id);
+
             if (category != null)
             {
                 var viewModel = new CategoryViewModel()
@@ -51,10 +52,11 @@ namespace BlogAdmin.Controllers
                     Id = category.Id,
                     CategoryName = category.CategoryName,
                     Description = category.Description,
-
                 };
+
                 return View(viewModel);
             }
+
             // mesaj
             return RedirectToAction("List");
         }
@@ -77,6 +79,7 @@ namespace BlogAdmin.Controllers
             }
 
             var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+
             var currentuserId = Convert.ToInt32(currentUserIdStr);
 
             Category entity = new Category()
@@ -109,7 +112,7 @@ namespace BlogAdmin.Controllers
 
             if (model.Id == 0)
             {
-                // new
+                // new (add)
                 entity.CreatedById = currentuserId;
                 result = _categoryRepository.Add(entity);
             }
@@ -126,7 +129,14 @@ namespace BlogAdmin.Controllers
                 return RedirectToAction("List");
             }
 
-            return View(model);
+            if (model.Id == 0)
+            {
+                return View("Add", model);
+            }
+            else
+            {
+                return View("Edit", model);
+            }            
         }
 
         //[HttpPost]

@@ -23,7 +23,7 @@ namespace BlogAdmin
         {
             services.AddDbContext<BlogDbContext>(option =>
             {
-                option.UseSqlServer("Server=.;Database=BlogDev;User Id=sa;Password=123;");
+                option.UseSqlServer("Server=.;Database=BlogDev;User Id=sa;Password=Password1;");
                 //baþka projeler dataya baðlý ama data onlara baðlý deðil
             });
 

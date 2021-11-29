@@ -21,6 +21,8 @@ namespace BlogAdmin.Models
         public string Content { get; set; }
         public IFormFile Picture { get; set; }
 
+        public string PictureStr { get; set; }
+
         public bool IsPublished { get; set; }
 
         public int CategoryId { get; set; }
