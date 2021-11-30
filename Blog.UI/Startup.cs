@@ -28,7 +28,7 @@ namespace Blog.UI
         {
             services.AddDbContext<BlogDbContext>(option =>
             {
-                option.UseSqlServer("Server=.;Database=BlogDev;uid=sa;password=Password1");
+                option.UseSqlServer("Server=.;Database=BlogDev;uid=sa;password=123");
             });
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();

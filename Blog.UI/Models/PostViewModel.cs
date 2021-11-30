@@ -16,5 +16,7 @@ namespace Blog.UI.Models
         public List<Tag> Tags { get; set; }
         public string Content { get; set; }
         public string PictureStr { get; set; }
+        public List<Comment> Comments { get; set; }
+        public string CategoryName { get; set; }
     }
 }

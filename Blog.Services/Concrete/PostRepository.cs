@@ -132,12 +132,17 @@ namespace Blog.Services.Concrete
 
         public List<Post> GetPosts()
         {
-            return _context.Posts.Include(x=> x.Category).Where(x => x.IsActive).ToList();
+            return _context.Posts
+                .Include(x=> x.Category)
+                .Include(x => x.Comments)
+                .Where(x => x.IsActive).ToList();
         }
 
         public List<Post> GetLatest5Posts()
         {
-           return _context.Posts.Include(x => x.Comments).Include(x => x.PostTags).ThenInclude(x => x.Tag)
+           return _context.Posts
+                .Include(x => x.Comments)
+                .Include(x => x.PostTags).ThenInclude(x => x.Tag)
                 .Where(x => x.IsActive && x.IsPublished)
                 .OrderByDescending(x => x.CreatedDate)
                 .Take(5) // select top 5
